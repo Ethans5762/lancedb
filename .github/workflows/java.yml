@@ -5,7 +5,7 @@ on:
       - main
   pull_request:
     paths:
-      - java/**
+      # - java/**
       - rust/**
       # - .github/workflows/java.yml
 env:
