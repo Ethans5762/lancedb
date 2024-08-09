@@ -54,22 +54,22 @@ jobs:
           sudo apt install -y protobuf-compiler libssl-dev pkg-config
       - name: Build release
         run: |
-          mkdir -p /var/log/lancedb/debuglu
+          mkdir -p /tmp/log/lancedb/debuglu
           set -x # Enable command echo for debugging
-          cargo build --release -v > /var/log/lancedb/debuglu/build.log 2>&1
+          cargo build --release -v > /tmp/log/lancedb/debuglu/build.log 2>&1
           cp ../target/release/liblancedb_jni.so liblancedb_jni.so
   upload_log:
     name: Upload build log
     runs-on: warp-ubuntu-2204-arm64-8x
     steps:
-     - name: Sleep for 10 minutes
+      - name: Sleep for 10 minutes
         run: sleep 600
       - name: Upload build logs
         uses: actions/upload-artifact@v4
         with:
           name: build-logs
-          path: /var/log/lancedb/debuglu/build.log
+          path: /tmp/log/lancedb/debuglu/build.log
           retention-days: 1
           if-no-files-found: error
       - name: Delete logs
-        run: rm -rf /var/log/lancedb/debuglu
+        run: rm -rf /tmp/log/lancedb/debuglu
